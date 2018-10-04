@@ -28,6 +28,11 @@
             <artifactId>plexus-utils</artifactId>
             <version>1.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.bluecatcode.junit</groupId>
+            <artifactId>junit-4.10-extended</artifactId>
+            <version>RELEASE</version>
+        </dependency>
     </dependencies>
 
     <!-- ======================== -->
