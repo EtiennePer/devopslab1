@@ -1,5 +1,0 @@
-projectKey=com.pericat.devops:lab1
-serverUrl=http://localhost:9000
-dashboardUrl=http://localhost:9000/dashboard/index/com.pericat.devops:lab1
-ceTaskId=AWY-OwXsBbrH52tbSwkv
-ceTaskUrl=http://localhost:9000/api/ce/task?id=AWY-OwXsBbrH52tbSwkv
