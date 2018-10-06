@@ -49,6 +49,8 @@
             </plugins>
         </pluginManagement>
         <plugins>
+
+            <!-- compiler -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -64,75 +66,66 @@
                 </configuration>
             </plugin>
 
-            <!-- Obtenir un jar avec les dépendances manuellement-->
-           <!-- <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-dependencies</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.1.0</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <mainClass>JXBusyLabelTest</mainClass>
-                            <classpathPrefix>dependency/</classpathPrefix>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>-->
+            <!-- Spécifications du Manifest du jar -->
+             <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-jar-plugin</artifactId>
+                 <version>3.1.0</version>
+                 <configuration>
+                     <archive>
+                         <manifest>
+                             <addClasspath>true</addClasspath>
+                             <mainClass>JXBusyLabelTest</mainClass>
+                             <classpathPrefix>/libs</classpathPrefix>
+                         </manifest>
+                     </archive>
+                 </configuration>
+             </plugin>
 
             <!-- Création d'archives -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                    <descriptors>
-                        <descriptor>src/assembly/assemblySrc.xml</descriptor> <!-- Zip des sources -->
-                        <descriptor>src/assembly/assemblyBin.xml</descriptor> <!-- Zip du jar -->
-                    </descriptors>
-                    <finalName>${project.name}-${project.version}</finalName>
-                </configuration>
                 <executions>
-                <execution>
-                    <id>make-assembly</id>
-                    <phase>package</phase>
-                    <goals>
-                        <goal>single</goal>
-                    </goals>
-                </execution>
-                </executions>
-<!--
-                <executions>
+
+                    <!-- # Creating the jar with dependencies #-->
                     <execution>
-                        <phase>package</phase>
+                        <id>jar-with-dependencies</id>
+                        <phase>verify</phase>
                         <goals>
                             <goal>single</goal>
                         </goals>
                         <configuration>
-                            <archive>
-                                <manifest>
-                                    <mainClass>JXBusyLabelTest</mainClass>
-                                </manifest>
-                            </archive>
+                            <finalName>${project.name}-${project.version}-with-dependencies</finalName>
+                            <appendAssemblyId>false</appendAssemblyId>
                             <descriptorRefs>
                                 <descriptorRef>jar-with-dependencies</descriptorRef>
                             </descriptorRefs>
+                            <archive>
+                                <manifest>
+                                    <mainClass>JXBusyLabelTest</mainClass>
+                                    <addClasspath>true</addClasspath>
+                                </manifest>
+                            </archive>
+                        </configuration>
+                    </execution>
+
+                    <!-- # Creating the two archive files #-->
+                    <execution>
+                        <id>archive-files</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>src/assembly/assemblySrc.xml</descriptor> <!-- Zip des sources -->
+                                <descriptor>src/assembly/assemblyBin.xml</descriptor> <!-- Zip du jar (avec les dépendances)-->
+                            </descriptors>
+                            <finalName>${project.name}-${project.version}</finalName>
                         </configuration>
                     </execution>
                 </executions>
--->
             </plugin>
         </plugins>
     </build>

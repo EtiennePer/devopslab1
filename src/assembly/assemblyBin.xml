@@ -5,18 +5,14 @@
     <formats>
         <format>zip</format>
     </formats>
-    <dependencySets>
-        <dependencySet>
-            <unpack>false</unpack>
-            <outputDirectory>data/libs/</outputDirectory>
-            <outputFileNameMapping>${artifact.artifactId}-${artifact.version}.${artifact.extension}</outputFileNameMapping>
-        </dependencySet>
-    </dependencySets>
+
+    <!-- Copie le jar dans le zip (le jar contient déjà les dependences)-->
     <files>
         <file>
-            <source>${project.basedir}/target/${project.name}-${project.version}.jar</source>
+            <source>${project.basedir}/target/${project.name}-${project.version}-with-dependencies.jar</source>
             <outputDirectory>.</outputDirectory>
             <destName>${project.name}-${project.version}.jar</destName>
         </file>
     </files>
+
 </assembly>
